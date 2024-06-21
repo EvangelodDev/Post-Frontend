@@ -1,10 +1,29 @@
 version: '3.8'
 services:
-  web:
-    build: .
+  posts-frontend:
+      build:
+        context: .
+        dockerfile: node.dockerfile
+        args:
+          NODE_ENV: ${NODE_ENV}
+          API_URL: ${API_URL}
+
+      container_name: posts-frontend
+      command: ash -c "yarn install && npm start"
+      volumes:
+        - ./code/public:/opt/frontend/frontend/public
+        - ./code/src:/opt/frontend/frontend/src
+        - ./code/package.json:/opt/frontend/frontend/package.json
+        - ./code/serve.js:/opt/frontend/frontend/serve.js
+        - ./code/node_modules:/opt/frontend/frontend/node_modules
+  frontend-nginx:
+    build:
+      context: .
+      dockerfile: nginx.dockerfile
+    container_name: posts-frontend-nginx
     ports:
-      - "3000:3000"
+      - "8080:80"
     volumes:
-      - .:/app
-    environment:
-      - NODE_ENV=development
+      - ./code/public:/usr/share/nginx/html
+    depends_on:
+      - posts-frontend

@@ -1,0 +1,65 @@
+{
+  "parser": "@babel/eslint-parser",
+  "extends": ["airbnb", "plugin:mdx/recommended"],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "requireConfigFile": false,
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    },
+    "babelOptions": {
+      "presets": ["@babel/preset-react"]
+   }
+  },
+  "ignorePatterns": ["src/components/Icons"],
+  "rules": {
+    "react/static-property-placement": [0],
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "max-len": ["warn", { "code": 140 }],
+    "arrow-parens": [0],
+    "import/no-unresolved": [0],
+    "import/extensions": [0],
+    "jsx-a11y/label-has-for": [
+      2,
+      {
+        "components": ["label"],
+        "required": {
+          "some": ["nesting", "id"]
+        },
+        "allowChildren": false
+      }
+    ],
+    "react/jsx-props-no-spreading": ["error", {
+      "custom": "ignore"
+    }]
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "jasmine": true,
+    "es6": true,
+    "jest": true
+  },
+  "plugins": ["jsx"],
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [
+          ["\\$forms", "./src/forms/"],
+          ["\\$pages", "./src/pages/"],
+          ["\\$store", "./src/store/"],
+          ["\\$reducers", "./src/reducers/"],
+          ["\\$tables", "./src/tables/"]
+        ],
+        "extensions" : [".js", ".jsx", ".json"]
+      }
+    }
+  },
+  "globals": {
+    "API_URL": "readonly",
+    "SOCKET_URL": "readonly",
+    "NODE_ENV": "readonly",
+    "VERSION": "readonly"
+  }
+}
